@@ -29,7 +29,7 @@ Note: LOL ITS FAKE
 * **Lag Machines:** Automatically identifies and logs coordinates of malicious structures.
 
 ### ⚡ Extreme Performance Core
-* **Folia Support:** Native support for Regionized Multithreading.
+* **Folia Support:** Native support for Regionized Multithreading. Note: We haven't tested it yet
 * **Zero-Allocation:** Custom `IntObjectMap`, `LongObjectMap`, and `ReusableStringBuilder` to eliminate Garbage Collection pressure.
 * **Async-First Architecture:** Heavy calculations are offloaded to worker threads; results are synchronized safely using `CountDownLatch`.
 
