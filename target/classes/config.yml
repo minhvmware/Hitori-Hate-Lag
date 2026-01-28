@@ -1,0 +1,181 @@
+# ============================================
+#     Hitori Anti-Lag Configuration
+# ============================================
+
+# Core Monitoring Settings
+monitoring:
+  # How often to scan all loaded chunks (in ticks, 20 ticks = 1 second)
+  scan-interval-ticks: 100
+  # MSPT sampling frequency in milliseconds
+  mspt-sample-rate-ms: 1000
+  # Days to keep historical data in database
+  history-retention-days: 7
+
+# Lag Scoring Thresholds
+# Chunks are classified by their lag score:
+# - NORMAL: score < medium threshold
+# - MEDIUM: score >= medium threshold
+# - HIGH: score >= high threshold
+# - CRITICAL: score >= critical threshold
+scoring:
+  hotspot-threshold-medium: 50
+  hotspot-threshold-high: 100
+  hotspot-threshold-critical: 150
+  
+  # Custom entity weights (higher = more lag impact)
+  # Uncomment and modify to override defaults
+  entity-weights:
+    VILLAGER: 3.5
+    IRON_GOLEM: 2.0
+    WITHER: 5.0
+    ENDER_DRAGON: 8.0
+    ZOMBIE: 1.2
+    SKELETON: 1.2
+    CREEPER: 1.0
+    PIGLIN: 2.0
+    CHICKEN: 0.5
+    COW: 0.5
+    SHEEP: 0.5
+    DROPPED_ITEM: 0.3
+    EXPERIENCE_ORB: 0.2
+    ARROW: 0.4
+    FIREWORK: 1.5
+    PRIMED_TNT: 2.5
+    FALLING_BLOCK: 1.0
+    ITEM_FRAME: 0.2
+    ARMOR_STAND: 0.3
+  
+  # Tile entity weights
+  tile-entity-weights:
+    HOPPER: 2.0
+    FURNACE: 0.8
+    BLAST_FURNACE: 0.8
+    SMOKER: 0.8
+    BREWING_STAND: 0.5
+    BEACON: 1.5
+    CONDUIT: 1.2
+    PISTON: 0.6
+    OBSERVER: 1.5
+    COMPARATOR: 1.2
+
+# Detection Settings
+detection:
+  redstone-clock:
+    enabled: true
+    # Updates per second threshold to classify as clock
+    threshold-updates-per-second: 20
+    # Window size in milliseconds for counting updates
+    window-size-ms: 1000
+    
+  entity-cramming:
+    enabled: true
+    # Entities per block to trigger cramming detection
+    threshold-entities-per-block: 24
+    
+  projectile-spam:
+    enabled: true
+    # Projectiles per chunk threshold
+    threshold-projectiles-per-chunk: 50
+    
+  nbt-protection:
+    enabled: true
+    # Maximum NBT size in bytes for shulker boxes
+    max-shulker-nbt-bytes: 2000000
+    # Maximum pages allowed in books
+    max-book-pages: 100
+    # Maximum characters per page
+    max-page-length: 32767
+
+# Mitigation Settings
+mitigation:
+  smart-culling:
+    enabled: true
+    # Entity types to always protect from culling
+    protect-named-mobs: true
+    protect-tamed-mobs: true
+    protect-leashed-mobs: true
+    protect-vehicle-passengers: true
+    # Custom protection tag (entities with this tag won't be culled)
+    protection-tag: "antilag:protected"
+    # Minimum time between automatic culls (seconds)
+    cooldown-seconds: 30
+    
+  redstone-throttling:
+    enabled: true
+    # Target updates per second when throttling is active
+    target-updates-per-second: 10
+    # Auto-throttle chunks exceeding clock threshold
+    auto-throttle: true
+    
+  dynamic-view-distance:
+    enabled: true
+    # MSPT thresholds for view distance reduction
+    mspt-warning-threshold: 35.0
+    mspt-critical-threshold: 45.0
+    mspt-emergency-threshold: 48.0
+    # Minimum view/simulation distance (never go below these)
+    min-view-distance: 4
+    min-simulation-distance: 3
+    # How quickly to restore view distance when lag clears (seconds)
+    recovery-delay-seconds: 30
+
+# Predictive Analysis Settings
+prediction:
+  trend-analysis:
+    enabled: true
+    # Sample window for trend calculation (seconds)
+    sample-window-seconds: 300
+    # Minimum samples needed before predictions
+    min-samples: 30
+    
+  anomaly-detection:
+    enabled: true
+    # Z-score threshold for anomaly detection (standard deviations)
+    z-score-threshold: 2.5
+    # Only learn baseline during healthy server state
+    baseline-max-mspt: 40.0
+    baseline-min-tps: 18.0
+
+# Web Dashboard Settings
+web:
+  enabled: true
+  # Port for the embedded web server
+  port: 8080
+  # Authentication token (CHANGE THIS!)
+  auth-token: "CHANGE_THIS_TO_A_SECURE_RANDOM_TOKEN"
+  # Real-time update interval in milliseconds
+  update-interval-ms: 100
+  # Maximum WebSocket connections
+  max-connections: 10
+  # CORS origin (set to your domain in production)
+  cors-origin: "*"
+
+# Database Settings
+storage:
+  # Storage type: 'sqlite' or 'mysql'
+  type: sqlite
+  
+  sqlite:
+    # Path relative to plugin folder
+    file: data.db
+    
+  mysql:
+    host: localhost
+    port: 3306
+    database: hitori_antilag
+    username: minecraft
+    password: ""
+    # Connection pool settings
+    pool-size: 5
+    connection-timeout-ms: 30000
+
+# Logging Settings
+logging:
+  # Log detected lag machines to console
+  log-detections: true
+  # Log mitigation actions to console
+  log-mitigations: true
+  # Log anomaly alerts to console
+  log-anomalies: true
+  # Debug mode (verbose logging)
+  debug: false

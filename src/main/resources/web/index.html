@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hitori Anti-Lag Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1>🔥 Hitori Anti-Lag</h1>
+                <span id="connection-status" class="status-badge disconnected">Disconnected</span>
+            </div>
+            <div class="header-right">
+                <span id="protection-mode" class="protection-mode">NORMAL</span>
+                <span id="last-update">--:--:--</span>
+            </div>
+        </header>
+
+        <!-- Main Stats -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="tps">--</div>
+                    <div class="stat-label">TPS</div>
+                </div>
+                <div class="stat-bar">
+                    <div class="stat-bar-fill tps-bar" id="tps-bar"></div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="mspt">--</div>
+                    <div class="stat-label">MSPT (ms)</div>
+                </div>
+                <div class="stat-bar">
+                    <div class="stat-bar-fill mspt-bar" id="mspt-bar"></div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">👾</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="entities">--</div>
+                    <div class="stat-label">Entities</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">🗺️</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="chunks">--</div>
+                    <div class="stat-label">Loaded Chunks</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="players">--</div>
+                    <div class="stat-label">Players</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">💾</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="memory">--</div>
+                    <div class="stat-label">Memory (MB)</div>
+                </div>
+                <div class="stat-bar">
+                    <div class="stat-bar-fill memory-bar" id="memory-bar"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Charts Section -->
+        <section class="charts-section">
+            <div class="chart-container">
+                <h3>📊 Performance Over Time</h3>
+                <canvas id="performance-chart"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <h3>📈 Entities & Chunks</h3>
+                <canvas id="entities-chart"></canvas>
+            </div>
+        </section>
+
+        <!-- Hotspots & Detections -->
+        <section class="panels-section">
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>🔴 Hotspots</h3>
+                    <button onclick="refreshHotspots()" class="btn-refresh">↻</button>
+                </div>
+                <div class="panel-content" id="hotspots-list">
+                    <div class="loading">Loading...</div>
+                </div>
+            </div>
+            
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>⚠️ Detections</h3>
+                    <button onclick="refreshDetections()" class="btn-refresh">↻</button>
+                </div>
+                <div class="panel-content" id="detections-list">
+                    <div class="loading">Loading...</div>
+                </div>
+            </div>
+            
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>📉 Trend Analysis</h3>
+                </div>
+                <div class="panel-content" id="trend-info">
+                    <div class="loading">Loading...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Actions -->
+        <section class="actions-section">
+            <h3>🎮 Actions</h3>
+            <div class="actions-grid">
+                <button onclick="triggerScan()" class="action-btn">
+                    <span class="action-icon">🔍</span>
+                    <span>Scan Chunks</span>
+                </button>
+                <button onclick="triggerCull(100)" class="action-btn warning">
+                    <span class="action-icon">🧹</span>
+                    <span>Cull 100 Entities</span>
+                </button>
+                <button onclick="triggerCull(500)" class="action-btn danger">
+                    <span class="action-icon">💀</span>
+                    <span>Cull 500 Entities</span>
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <h2>🔐 Enter Auth Token</h2>
+            <input type="text" id="auth-token" placeholder="Auth token from config.yml">
+            <button onclick="connect()" class="btn-connect">Connect</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

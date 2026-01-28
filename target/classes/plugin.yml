@@ -1,0 +1,33 @@
+name: HitoriAntiLag
+version: 1.0.0
+main: com.hitori.antilag.HitoriAntiLag
+api-version: '1.21'
+folia-supported: true
+
+authors:
+  - BocchiMC Team
+
+description: Advanced anti-lag system with predictive analysis and web dashboard
+
+softdepend:
+  - ProtocolLib
+
+commands:
+  antilag:
+    description: Hitori Anti-Lag management commands
+    usage: /antilag <status|scan|hotspots|config|reload>
+    permission: hitori.antilag.admin
+    aliases:
+      - hal
+      - lag
+
+permissions:
+  hitori.antilag.admin:
+    description: Full access to anti-lag commands
+    default: op
+  hitori.antilag.bypass:
+    description: Bypass entity culling for player's entities
+    default: false
+  hitori.antilag.web:
+    description: Access to web dashboard
+    default: op
